@@ -1,3 +1,5 @@
+
+
 def read_data_from_file():
     list_of_albums = []
     with open("text_albums_data.txt") as file_object:
@@ -28,7 +30,21 @@ def find_album_by_artist_name():
     given_name = input("Give name of the artist: ").lower()
     indices = [i for i, x in enumerate(artist_names) if x == given_name.lower()]
     for index in indices:
-        print(list_of_albums[index])
+        return(list_of_albums[index])
+
+
+def time_from_to():
+    from_time = input("Give time from wich I'll search(format 'MM:SS'): ").split(":")
+    to_time = input("Give time to wich I'll search(format 'MM:SS'): ").split(":")
+    if from_time[0] is None:
+        from_time[0] = 0
+    if to_time is None:
+        to_time = 0
+    time_list = from_time + to_time
+    time_list = [int(i) for i in time_list]
+    print(time_list)
+
+
 def view_all_albums():
     list_of_albums = read_data_from_file()
     list_of_longest_strings = longest_strings_in_albums()
@@ -50,6 +66,7 @@ def view_all_albums():
                 l_t=list_of_longest_strings[4] + extra_len,))
     print("-"*sum(list_of_longest_strings) + "-" * len_of_vertical_lines + "-" * (extra_len * 5))
 
+
 def longest_strings_in_albums():
     list_of_albums = read_data_from_file()
     list_of_longest_strings = []
@@ -65,8 +82,10 @@ def longest_strings_in_albums():
 
 def main():
     read_data_from_file()
-    view_all_albums()
-    longest_strings_in_albums()
+    # view_all_albums()
+    # longest_strings_in_albums()
+    time_from_to()
+
 
 if __name__ == "__main__":
     main()
