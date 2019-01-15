@@ -118,6 +118,22 @@ def find_between_dates():
     return albums_by_release_date
 
 
+def find_oldest_or_youngest_album():
+    list_of_albums = read_data_from_file()
+    albums_by_date = []
+    albums_result = []
+
+    for date in list_of_albums:
+        albums_by_date.append(date[2])
+    albums_by_date = [int(date) for date in albums_by_date]
+    date_indices = albums_by_date.index(min(albums_by_date)), albums_by_date.index(max(albums_by_date))
+
+    for index in date_indices:
+        albums_result.append(list_of_albums[index])
+
+    return albums_result
+
+
 def display_results(list_of_albums, list_of_longest_strings):
     len_of_vertical_lines = 6
     extra_len = 4
@@ -189,6 +205,42 @@ def view_between_dates():
     display_results(albums_by_release, longest_strings)
 
 
+def display_statistics_about_albums():
+    longest_shortest_album = find_shortest_or_longest_album()
+    oldest_youngest_album = find_oldest_or_youngest_album()
+    list_of_albums = read_data_from_file()
+    genre_stat = genre_statistics()
+
+    print("The shortest album is: {}. Time duration: {}".format(
+            longest_shortest_album[0][1].title(), longest_shortest_album[0][4]))
+    print("The longest album is: {}. Time duration: {}".format(
+        longest_shortest_album[1][1].title(), longest_shortest_album[1][4]))
+
+    print("\nThe oldest album is: {}. Release date: {}".format(
+        oldest_youngest_album[0][1].title(), oldest_youngest_album[0][2]))
+    print("The youngest album is: {}. Release date: {}".format(
+        oldest_youngest_album[1][1].title(), oldest_youngest_album[1][2]))
+
+    print("\nTotal album quantity: {}" .format(len(list_of_albums)))
+
+    print("\nIndividual genres in albums:")
+    for genre, quantity in genre_stat.items():
+        print("{}: {}" .format(genre.title(), quantity))
+
+
+def genre_statistics():
+    list_of_albums = read_data_from_file()
+    genre_list = []
+    genre_stat = dict()
+    for genre in list_of_albums:
+        genre_list.append(genre[3])
+
+    for i in genre_list:
+        genre_stat[i] = genre_stat.get(i, 0) + 1
+
+    return genre_stat
+
+
 def longest_strings_in_albums(list_of_albums):
     list_of_longest_strings = []
 
@@ -204,7 +256,7 @@ def longest_strings_in_albums(list_of_albums):
 def choose_main_option():
     print("1) View all albums")
     print("2) Find...")
-    print("3) All info...")
+    print("3) Overall statistics")
     option = input("Please enter your choice: ")
     return option
 
@@ -220,6 +272,7 @@ def choose_find_option():
 
 
 def main():
+    genre_statistics()
     find_shortest_or_longest_album()
     main_option = choose_main_option()
     if main_option == "1":
@@ -236,6 +289,8 @@ def main():
             view_shortest_and_longest_album()
         elif find_option == "5":
             view_between_dates()
+    elif main_option == "3":
+        display_statistics_about_albums()
 
 
 if __name__ == "__main__":
