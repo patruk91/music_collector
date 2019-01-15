@@ -96,6 +96,17 @@ def time_from_to():
 '''
 
 
+def add_new_album():
+    artist_name = input("Enter artist name: ")
+    album_name = input("Enter album name: ")
+    release_year = input("Enter release date: ")
+    genre_name = input("Enter genre name: ")
+    duration = input("Enter duration of album: ")
+
+    with open("text_albums_data.txt", "a") as file_object:
+        file_object.write("{},{},{},{},{}\n" .format(artist_name, album_name, release_year, genre_name, duration))
+    
+
 def find_between_dates():
     list_of_albums = read_data_from_file()
     release_dates = []
@@ -219,6 +230,7 @@ def choose_find_option():
     return find_option
 
 
+'''
 def main():
     find_shortest_or_longest_album()
     main_option = choose_main_option()
@@ -240,3 +252,6 @@ def main():
 
 if __name__ == "__main__":
     main()
+'''
+
+add_album()
