@@ -1,3 +1,5 @@
+
+
 def read_data_from_file():
     list_of_albums = []
     with open("text_albums_data.txt") as file_object:
@@ -75,6 +77,46 @@ def find_shortest_or_longest_album():
         albums_result.append(list_of_albums[index])
 
     return albums_result
+
+
+'''
+def time_from_to():
+    from_time = input("Give time from wich I'll search(format 'MM:SS'): ").split(":")
+    to_time = input("Give time to wich I'll search(format 'MM:SS'): ").split(":")
+    if from_time[0] is None:
+        from_time[0] = 0
+    if to_time is None:
+        to_time = 0
+    time_list = from_time + to_time
+    time_list = [int(i) for i in time_list]
+    print(time_list)
+    begin_time_in_sec = time_list[0] * 60 + time_list[1]
+    end_time_in_sec = time_list[2] * 60 + time_list[3]
+    if begin_time_in_sec > end_time_in_sec:
+'''
+
+
+def find_between_dates():
+    list_of_albums = read_data_from_file()
+    release_dates = []
+    albums_by_release_date = []
+
+    for date in list_of_albums:
+        release_dates.append(date[2])
+    release_dates = [int(date) for date in release_dates]
+    print(release_dates)
+    entered_begin_year = int(input("Please enter date from wich I'll search: "))
+    entered_end_year = int(input("Please enter date to wich I'll search: "))
+
+    for year_range in range(entered_begin_year, entered_end_year + 1):
+        if year_range in release_dates:
+            year_indices = [index for index, year in enumerate(
+                release_dates) if year == year_range]
+
+            for index in year_indices:
+                albums_by_release_date.append(list_of_albums[index])
+
+    return albums_by_release_date
 
 
 def display_results(list_of_albums, list_of_longest_strings):
