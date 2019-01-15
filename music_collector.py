@@ -104,9 +104,8 @@ def find_between_dates():
     for date in list_of_albums:
         release_dates.append(date[2])
     release_dates = [int(date) for date in release_dates]
-    print(release_dates)
-    entered_begin_year = int(input("Please enter date from wich I'll search: "))
-    entered_end_year = int(input("Please enter date to wich I'll search: "))
+    entered_begin_year = int(input("Please enter date from which to search: "))
+    entered_end_year = int(input("Please enter date to which to search: "))
 
     for year_range in range(entered_begin_year, entered_end_year + 1):
         if year_range in release_dates:
@@ -184,6 +183,12 @@ def view_shortest_and_longest_album():
     display_results(albums_sl, longest_strings)
 
 
+def view_between_dates():
+    albums_by_release = find_between_dates()
+    longest_strings = longest_strings_in_albums(albums_by_release)
+    display_results(albums_by_release, longest_strings)
+
+
 def longest_strings_in_albums(list_of_albums):
     list_of_longest_strings = []
 
@@ -209,6 +214,7 @@ def choose_find_option():
     print("2) by album name")
     print("3) by genre")
     print("4) shortest and longest album")
+    print("5) between dates")
     find_option = input("Please enter your choice: ")
     return find_option
 
@@ -228,6 +234,8 @@ def main():
             view_albums_by_genre()
         elif find_option == "4":
             view_shortest_and_longest_album()
+        elif find_option == "5":
+            view_between_dates()
 
 
 if __name__ == "__main__":
