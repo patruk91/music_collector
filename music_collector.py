@@ -15,14 +15,12 @@ def find_albums_by_name():
         albums_by_name.append(album[1])
 
     entered_album_name = input("Please enter the album name to find: ").lower()
-    albums_indices = [index for index, album_name in enumerate(albums_by_name) if album_name == entered_album_name.lower()]
+    albums_indices = [index for index, album_name in enumerate(
+        albums_by_name) if album_name == entered_album_name.lower()]
     for index in albums_indices:
         albums_result.append(list_of_albums[index])
 
-    if entered_album_name in albums_by_name:
-        return albums_result
-    else:
-        print("\nNo such album name in database!")
+    return albums_result
 
 
 def find_albums_by_artist_name():
@@ -33,27 +31,27 @@ def find_albums_by_artist_name():
     for artist in list_of_albums:
         artist_names.append(artist[0])
     entered_name = input("Please enter the artist's name to find: ").lower()
-    artist_indices = [index for index, name in enumerate(artist_names) if name == entered_name.lower()]
+    artist_indices = [index for index, name in enumerate(
+        artist_names) if name == entered_name.lower()]
 
     for index in artist_indices:
         albums_by_artist_name.append(list_of_albums[index])
 
-    if len(albums_by_artist_name) == 0:
-        print("\nNo such artist in database!")
-    else:
-        return albums_by_artist_name
+    return albums_by_artist_name
 
 
-def view_all_albums():
-    list_of_albums = read_data_from_file()
-    list_of_longest_strings = longest_strings_in_albums()
+def display_results(list_of_albums, list_of_longest_strings):
     len_of_vertical_lines = 6
     extra_len = 4
 
     for album in list_of_albums:
-        print("-" * sum(list_of_longest_strings) + "-" * len_of_vertical_lines + "-" * (extra_len * 5))
         print(
-            "|{:^{l_n}}|{:^{l_a}}|{:^{l_y}}|{:^{l_g}}|{:^{l_t}}|" .format(
+            "-" * sum(list_of_longest_strings)
+            + "-" * len_of_vertical_lines
+            + "-" * (extra_len * 5))
+
+        print(
+            "|{:^{l_n}}|{:^{l_a}}|{:^{l_y}}|{:^{l_g}}|{:^{l_t}}|".format(
                 album[0].title(),
                 album[1].title(),
                 album[2].title(),
@@ -63,12 +61,36 @@ def view_all_albums():
                 l_a=list_of_longest_strings[1] + extra_len,
                 l_y=list_of_longest_strings[2] + extra_len,
                 l_g=list_of_longest_strings[3] + extra_len,
-                l_t=list_of_longest_strings[4] + extra_len,))
-    print("-"*sum(list_of_longest_strings) + "-" * len_of_vertical_lines + "-" * (extra_len * 5))
+                l_t=list_of_longest_strings[4] + extra_len, ))
+    print("-" * sum(list_of_longest_strings) + "-" *
+          len_of_vertical_lines + "-" * (extra_len * 5))
 
 
-def longest_strings_in_albums():
-    list_of_albums = read_data_from_file()
+def view_all_albums():
+    albums = read_data_from_file()
+    longest_strings = longest_strings_in_albums(albums)
+    display_results(albums, longest_strings)
+
+
+def view_albums_by_artist_name():
+    artist_name = find_albums_by_artist_name()
+    if len(artist_name) == 0:
+        print("\nNo such artist in database!")
+    else:
+        longest_strings = longest_strings_in_albums(artist_name)
+        display_results(artist_name, longest_strings)
+
+
+def view_albums_by_name():
+    albums_name = find_albums_by_name()
+    if len(albums_name) == 0:
+        print("\nNo such artist in database!")
+    else:
+        longest_strings = longest_strings_in_albums(albums_name)
+        display_results(albums_name, longest_strings)
+
+
+def longest_strings_in_albums(list_of_albums):
     list_of_longest_strings = []
 
     for i in range(5):
@@ -102,9 +124,9 @@ def main():
     elif main_option == "2":
         find_option = choose_find_option()
         if find_option == "1":
-            find_albums_by_artist_name()
-    elif main_option == "3":
-        find_albums_by_name()
+            view_albums_by_artist_name()
+        elif main_option == "2":
+            view_albums_by_name()
 
 
 if __name__ == "__main__":
