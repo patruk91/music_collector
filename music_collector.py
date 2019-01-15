@@ -40,6 +40,43 @@ def find_albums_by_artist_name():
     return albums_by_artist_name
 
 
+def find_albums_by_genre():
+    list_of_albums = read_data_from_file()
+    albums_by_genre = []
+    albums_result = []
+
+    for genre in list_of_albums:
+        albums_by_genre.append(genre[3])
+
+    entered_music_genre = input("Please enter music genre to find: ").lower()
+    genre_indices = [index for index, album_name in enumerate(
+        albums_by_genre) if album_name == entered_music_genre.lower()]
+
+    for index in genre_indices:
+        albums_result.append(list_of_albums[index])
+
+    return albums_result
+
+
+def find_shortest_or_longest_album():
+    list_of_albums = read_data_from_file()
+    albums_by_time = []
+    albums_in_seconds = []
+    albums_result = []
+
+    for time in list_of_albums:
+        albums_by_time.append(time[4])
+    for time in albums_by_time:
+        m, s = time.split(":")
+        albums_in_seconds.append((int(m) * 60 + int(s)))
+    time_indices = albums_in_seconds.index(min(albums_in_seconds)), albums_in_seconds.index(max(albums_in_seconds))
+
+    for index in time_indices:
+        albums_result.append(list_of_albums[index])
+
+    return albums_result
+
+
 def display_results(list_of_albums, list_of_longest_strings):
     len_of_vertical_lines = 6
     extra_len = 4
@@ -52,7 +89,7 @@ def display_results(list_of_albums, list_of_longest_strings):
 
         print(
             "|{:^{l_n}}|{:^{l_a}}|{:^{l_y}}|{:^{l_g}}|{:^{l_t}}|".format(
-                album[0].title(),
+                album[0].title(),  # fix with *args?
                 album[1].title(),
                 album[2].title(),
                 album[3].title(),
@@ -90,6 +127,21 @@ def view_albums_by_name():
         display_results(albums_name, longest_strings)
 
 
+def view_albums_by_genre():
+    genre = find_albums_by_genre()
+    if len(genre) == 0:
+        print("\nNo such music genre in database!")
+    else:
+        longest_strings = longest_strings_in_albums(genre)
+        display_results(genre, longest_strings)
+
+
+def view_shortest_and_longest_album():
+    albums_sl = find_shortest_or_longest_album()
+    longest_strings = longest_strings_in_albums(albums_sl)
+    display_results(albums_sl, longest_strings)
+
+
 def longest_strings_in_albums(list_of_albums):
     list_of_longest_strings = []
 
@@ -113,11 +165,14 @@ def choose_main_option():
 def choose_find_option():
     print("1) by artist name")
     print("2) by album name")
+    print("3) by genre")
+    print("4) shortest and longest album")
     find_option = input("Please enter your choice: ")
     return find_option
 
 
 def main():
+    find_shortest_or_longest_album()
     main_option = choose_main_option()
     if main_option == "1":
         view_all_albums()
@@ -125,8 +180,12 @@ def main():
         find_option = choose_find_option()
         if find_option == "1":
             view_albums_by_artist_name()
-        elif main_option == "2":
+        elif find_option == "2":
             view_albums_by_name()
+        elif find_option == "3":
+            view_albums_by_genre()
+        elif find_option == "4":
+            view_shortest_and_longest_album()
 
 
 if __name__ == "__main__":
