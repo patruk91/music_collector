@@ -96,6 +96,13 @@ def time_from_to():
 '''
 
 
+def save_to_external_file():
+    new_file_name = input("Enter desired file name: ")
+    with open("text_albums_data.txt", "r") as file_object:
+        with open(new_file_name, "w") as new_file_object:
+            new_file_object.writelines(file_object)
+
+
 def add_new_album():
     artist_name = input("Enter artist name: ")
     album_name = input("Enter album name: ")
@@ -104,8 +111,9 @@ def add_new_album():
     duration = input("Enter duration of album: ")
 
     with open("text_albums_data.txt", "a") as file_object:
-        file_object.write("{},{},{},{},{}\n" .format(artist_name, album_name, release_year, genre_name, duration))
-    
+        file_object.write("{},{},{},{},{}\n" .format(
+            artist_name, album_name, release_year, genre_name, duration))
+
 
 def find_between_dates():
     list_of_albums = read_data_from_file()
@@ -254,4 +262,4 @@ if __name__ == "__main__":
     main()
 '''
 
-add_album()
+save_to_external_file()
