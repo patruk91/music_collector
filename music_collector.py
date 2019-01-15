@@ -28,32 +28,6 @@ def find_albums_by_name():
 def find_albums_by_artist_name():
     list_of_albums = read_data_from_file()
     artist_names = []
-<<<<<<< HEAD
-    for album in list_of_albums:
-        artist_names.append(album[0])
-    print(artist_names)
-    given_name = input("Give name of the artist: ").lower()
-    indices = [i for i, x in enumerate(artist_names) if x == given_name.lower()]
-    for index in indices:
-        return(list_of_albums[index])
-
-
-def time_from_to():
-    from_time = input("Give time from wich I'll search(format 'MM:SS'): ").split(":")
-    to_time = input("Give time to wich I'll search(format 'MM:SS'): ").split(":")
-    if from_time[0] is None:
-        from_time[0] = 0
-    if to_time is None:
-        to_time = 0
-    time_list = from_time + to_time
-    time_list = [int(i) for i in time_list]
-    print(time_list)
-
-
-def view_all_albums():
-    list_of_albums = read_data_from_file()
-    list_of_longest_strings = longest_strings_in_albums()
-=======
     albums_by_artist_name = []
 
     for artist in list_of_albums:
@@ -68,8 +42,47 @@ def view_all_albums():
     return albums_by_artist_name
 
 
+'''
+def time_from_to():
+    from_time = input("Give time from wich I'll search(format 'MM:SS'): ").split(":")
+    to_time = input("Give time to wich I'll search(format 'MM:SS'): ").split(":")
+    if from_time[0] is None:
+        from_time[0] = 0
+    if to_time is None:
+        to_time = 0
+    time_list = from_time + to_time
+    time_list = [int(i) for i in time_list]
+    print(time_list)
+    begin_time_in_sec = time_list[0] * 60 + time_list[1]
+    end_time_in_sec = time_list[2] * 60 + time_list[3]
+    if begin_time_in_sec > end_time_in_sec:
+'''
+
+
+def find_between_dates():
+    list_of_albums = read_data_from_file()
+    realease_dates = []
+    albums_by_release_date = []
+
+    for date in list_of_albums:
+        realease_dates.append(date[2])
+    realease_dates = [int(date) for date in realease_dates]
+    print(realease_dates)
+    entered_begin_year = int(input("Please enter date from wich I'll search: "))
+    entered_end_year = int(input("Please enter date to wich I'll search: "))
+
+    for year_range in range(entered_begin_year, entered_end_year + 1):
+        if year_range in realease_dates:
+            year_indices = [index for index, year in enumerate(
+                realease_dates) if year == year_range]
+
+            for index in year_indices:
+                albums_by_release_date.append(list_of_albums[index])
+
+    return(albums_by_release_date)
+
+
 def display_results(list_of_albums, list_of_longest_strings):
->>>>>>> 7ee704582d3ba56af46c9e34ddf1888ad55f9597
     len_of_vertical_lines = 6
     extra_len = 4
 
@@ -95,10 +108,6 @@ def display_results(list_of_albums, list_of_longest_strings):
           len_of_vertical_lines + "-" * (extra_len * 5))
 
 
-<<<<<<< HEAD
-def longest_strings_in_albums():
-    list_of_albums = read_data_from_file()
-=======
 def view_all_albums():
     albums = read_data_from_file()
     longest_strings = longest_strings_in_albums(albums)
@@ -124,7 +133,6 @@ def view_albums_by_name():
 
 
 def longest_strings_in_albums(list_of_albums):
->>>>>>> 7ee704582d3ba56af46c9e34ddf1888ad55f9597
     list_of_longest_strings = []
 
     for i in range(5):
@@ -152,12 +160,6 @@ def choose_find_option():
 
 
 def main():
-<<<<<<< HEAD
-    read_data_from_file()
-    # view_all_albums()
-    # longest_strings_in_albums()
-    time_from_to()
-=======
     main_option = choose_main_option()
     if main_option == "1":
         view_all_albums()
@@ -167,7 +169,6 @@ def main():
             view_albums_by_artist_name()
         elif main_option == "2":
             view_albums_by_name()
->>>>>>> 7ee704582d3ba56af46c9e34ddf1888ad55f9597
 
 
 if __name__ == "__main__":
