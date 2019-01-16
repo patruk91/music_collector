@@ -1,3 +1,4 @@
+import os
 
 
 def read_data_from_file():
@@ -203,7 +204,6 @@ def display_results(list_of_albums, list_of_longest_strings):
 def view_all_albums():
     albums = read_data_from_file()
     longest_strings = longest_strings_in_albums(albums)
-    print(albums)
     display_results(albums, longest_strings)
 
 
@@ -218,16 +218,17 @@ def view_albums_by_artist_name():
 
 def view_albums_by_name():
     albums_name = find_albums_by_name()
+    CONST = 26
+    # CONST due to free spaces, vertical lines, see display function
+
     if len(albums_name) == 0:
         print("\nNo such artist in database!")
     else:
         longest_strings = longest_strings_in_albums(albums_name)
         print(
-            "{:^{l_s}}". format(
+            "\n{:^{l_s}}". format(
                 "SEARCHED ALBUM",
-                l_s=sum(longest_strings) +
-                26))
-        # 26 is const see display func
+                l_s=sum(longest_strings) + CONST))
         display_results(albums_name, longest_strings)
     return albums_name
 
@@ -236,22 +237,21 @@ def view_suggestions_by_album_name():
     albums_name = find_suggestions_by_album_name()
     accurate_suggestions = albums_name[0]
     less_suggestions = albums_name[1]
+    CONST = 26
+    # CONST due to free spaces, vertical lines, see display function
 
     longest_strings_accurate = longest_strings_in_albums(accurate_suggestions)
     print(
         "\n{:^{l_s}}".format(
             "SIMILAR MUSIC",
-            l_s=sum(longest_strings_accurate) +
-            26))
-    # 26 is const see display func
+            l_s=sum(longest_strings_accurate) + CONST))
     display_results(accurate_suggestions, longest_strings_accurate)
 
     longest_strings_less = longest_strings_in_albums(less_suggestions)
     print(
         "\n{:^{l_s}}".format(
             "RELATIVELY SIMILAR MUSIC",
-            l_s=sum(longest_strings_less) +
-            26))
+            l_s=sum(longest_strings_less) + CONST))
     display_results(less_suggestions, longest_strings_less)
 
 
@@ -330,44 +330,64 @@ def choose_main_option():
     print("3) Overall statistics")
     print("4) Add new album")
     print("5) Save albums to external file")
+    print("9) Exit")
 
     option = input("Please enter your choice: ")
     return option
 
 
 def choose_find_option():
-    print("1) by artist name")
-    print("2) by album name")
-    print("3) by genre")
+    print("1) album by artist name")
+    print("2) album by album name")
+    print("3) album by genre")
     print("4) shortest and longest album")
     print("5) between dates")
+    print("9) Back to previous menu")
     find_option = input("Please enter your choice: ")
     return find_option
 
 
 def main():
+    condition = True
+    while condition:
+        while True:
+            os.system('clear')
+            main_option = choose_main_option()
+            os.system('clear')
 
-    main_option = choose_main_option()
-    if main_option == "1":
-        view_all_albums()
-    elif main_option == "2":
-        find_option = choose_find_option()
-        if find_option == "1":
-            view_albums_by_artist_name()
-        elif find_option == "2":
-            view_suggestions_by_album_name()
-        elif find_option == "3":
-            view_albums_by_genre()
-        elif find_option == "4":
-            view_shortest_and_longest_album()
-        elif find_option == "5":
-            view_between_dates()
-    elif main_option == "3":
-        display_statistics_about_albums()
-    elif main_option == "4":
-        add_new_album()
-    elif main_option == "5":
-        save_to_external_file()
+            if main_option == "1":
+                view_all_albums()
+            elif main_option == "2":
+                find_option = choose_find_option()
+                os.system('clear')
+                if find_option == "1":
+                    view_albums_by_artist_name()
+                elif find_option == "2":
+                    view_suggestions_by_album_name()
+                elif find_option == "3":
+                    view_albums_by_genre()
+                elif find_option == "4":
+                    view_shortest_and_longest_album()
+                elif find_option == "5":
+                    view_between_dates()
+                elif find_option == "9":
+                    break
+                if find_option not in ["1", "2", "3", "4", "5", "6", "7", "8", "9"]:
+                    print("Error occurred!")
+            elif main_option == "3":
+                display_statistics_about_albums()
+            elif main_option == "4":
+                add_new_album()
+            elif main_option == "5":
+                save_to_external_file()
+            elif main_option == "9":
+                condition = False
+                return condition
+
+            input("\nPress Enter to main menu...\n")
+
+        if condition and find_option != "9":
+            break
 
 
 if __name__ == "__main__":
