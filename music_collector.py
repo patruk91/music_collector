@@ -27,20 +27,24 @@ def find_albums_by_name():
 
 def find_suggestions_by_album_name():
     album_name = view_albums_by_name()
-    list_of_albums = read_data_from_file()
-    genre_list = album_name[0][3]
-    accurate_suggestion = []
-    less_suggestion = []
+    if album_name == None:
+        return None
+    else:
 
-    for album in list_of_albums:
-        if album_name[0] == album:
-            accurate_suggestion = accurate_suggestion
-        elif genre_list == album[3]:
-            accurate_suggestion.append(album)
-        else:
-            if set(genre_list.split()) & set(list(album[3].split())):
-                less_suggestion.append(album)
-    return accurate_suggestion, less_suggestion
+        list_of_albums = read_data_from_file()
+        genre_list = album_name[0][3]
+        accurate_suggestion = []
+        less_suggestion = []
+
+        for album in list_of_albums:
+            if album_name[0] == album:
+                accurate_suggestion = accurate_suggestion
+            elif genre_list == album[3]:
+                accurate_suggestion.append(album)
+            else:
+                if set(genre_list.split()) & set(list(album[3].split())):
+                    less_suggestion.append(album)
+        return accurate_suggestion, less_suggestion
 
 
 def find_albums_by_artist_name():
@@ -133,7 +137,6 @@ def edit_file():
                 if artist_name in i:
                     album_result = []
                     album_result.append(i)
-        print(album_result)
         album_result = album_result[0]
         index = list_of_albums.index(album_result)
         print("What would you like to change? ")
@@ -154,7 +157,6 @@ def edit_file():
             album_result[3] = entered_change
         elif entered_option == "5":
             album_result[4] = entered_change
-        print(album_result)
 
         list_of_albums[index] = album_result
         rewrite_file(list_of_albums)
@@ -266,7 +268,7 @@ def view_albums_by_name():
     # CONST due to free spaces, vertical lines, see display function
 
     if len(albums_name) == 0:
-        print("\nNo such artist in database!")
+        return None
     else:
         longest_strings = longest_strings_in_albums(albums_name)
         print(
@@ -278,25 +280,29 @@ def view_albums_by_name():
 
 
 def view_suggestions_by_album_name():
+
     albums_name = find_suggestions_by_album_name()
-    accurate_suggestions = albums_name[0]
-    less_suggestions = albums_name[1]
-    CONST = 26
-    # CONST due to free spaces, vertical lines, see display function
+    if albums_name == None:
+        print("\nNo such album in database!")
+    else:
+        accurate_suggestions = albums_name[0]
+        less_suggestions = albums_name[1]
+        CONST = 26
+        # CONST due to free spaces, vertical lines, see display function
 
-    longest_strings_accurate = longest_strings_in_albums(accurate_suggestions)
-    print(
-        "\n{:^{l_s}}".format(
-            "SIMILAR MUSIC",
-            l_s=sum(longest_strings_accurate) + CONST))
-    display_results(accurate_suggestions, longest_strings_accurate)
+        longest_strings_accurate = longest_strings_in_albums(accurate_suggestions)
+        print(
+            "\n{:^{l_s}}".format(
+                "SIMILAR MUSIC",
+                l_s=sum(longest_strings_accurate) + CONST))
+        display_results(accurate_suggestions, longest_strings_accurate)
 
-    longest_strings_less = longest_strings_in_albums(less_suggestions)
-    print(
-        "\n{:^{l_s}}".format(
-            "RELATIVELY SIMILAR MUSIC",
-            l_s=sum(longest_strings_less) + CONST))
-    display_results(less_suggestions, longest_strings_less)
+        longest_strings_less = longest_strings_in_albums(less_suggestions)
+        print(
+            "\n{:^{l_s}}".format(
+                "RELATIVELY SIMILAR MUSIC",
+                l_s=sum(longest_strings_less) + CONST))
+        display_results(less_suggestions, longest_strings_less)
 
 
 def view_albums_by_genre():
@@ -373,7 +379,8 @@ def choose_main_option():
     print("2) Find...")
     print("3) Overall statistics")
     print("4) Add new album")
-    print("5) Save albums to external file")
+    print("5) Edit album in database")
+    print("6) Save albums to external file")
     print("9) Exit")
 
     option = input("Please enter your choice: ")
@@ -423,11 +430,12 @@ def main():
             elif main_option == "4":
                 add_new_album()
             elif main_option == "5":
+                edit_file()
+            elif main_option == "6":
                 save_to_external_file()
             elif main_option == "9":
                 condition = False
                 return condition
-
             input("\nPress Enter to main menu...\n")
 
         if condition and find_option != "9":
