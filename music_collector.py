@@ -436,8 +436,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-<<<<<<< HEAD
-'''
-edit_file()
-=======
->>>>>>> 6c762140029cb713bbf7f7c704d07b568d2addd3
