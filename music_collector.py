@@ -13,7 +13,6 @@ def find_albums_by_name():
     list_of_albums = read_data_from_file()
     albums_by_name = []
     albums_result = []
-
     for album in list_of_albums:
         albums_by_name.append(album[1])
 
@@ -122,6 +121,51 @@ def save_to_external_file():
     with open("text_albums_data.txt", "r") as file_object:
         with open(new_file_name, "w") as new_file_object:
             new_file_object.writelines(file_object)
+
+
+def edit_file():
+    with open("text_albums_data.txt", "a") as file_object:
+        list_of_albums = read_data_from_file()
+        album_result = find_albums_by_name()
+        if len(album_result) > 1:
+            artist_name = input("Please give me artist name: ")
+            for i in album_result:
+                if artist_name in i:
+                    album_result = []
+                    album_result.append(i)
+        print(album_result)
+        album_result = album_result[0]
+        index = list_of_albums.index(album_result)
+        print("What would you like to change? ")
+        print("1) Change artist name")
+        print("2) Change album name")
+        print("3) Change release year")
+        print("4) Change genre name")
+        print("5) Change duration")
+        entered_option = input("Please enter your choice: ")
+        entered_change = input("Please enter your change: ")
+        if entered_option == "1":
+            album_result[0] = entered_change
+        elif entered_option == "2":
+            album_result[1] = entered_change
+        elif entered_option == "3":
+            album_result[2] = entered_change
+        elif entered_option == "4":        
+            album_result[3] = entered_change
+        elif entered_option == "5":
+            album_result[4] = entered_change
+        print(album_result)
+
+        list_of_albums[index] = album_result
+        rewrite_file(list_of_albums)
+        
+
+def rewrite_file(list_of_albums):
+    with open("text_albums_data.txt", "w") as file_object:
+        for album in list_of_albums:
+            for record in album:
+                file_object.writelines(record + ",")
+            file_object.write("\n")
 
 
 def add_new_album():
@@ -392,3 +436,8 @@ def main():
 
 if __name__ == "__main__":
     main()
+<<<<<<< HEAD
+'''
+edit_file()
+=======
+>>>>>>> 6c762140029cb713bbf7f7c704d07b568d2addd3
