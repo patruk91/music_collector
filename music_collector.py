@@ -24,6 +24,24 @@ def find_albums_by_name():
     return albums_result
 
 
+def find_suggestions_by_album_name():
+    album_name = view_albums_by_name()
+    list_of_albums = read_data_from_file()
+    genre_list = album_name[0][3]
+    accurate_suggestion = []
+    less_suggestion = []
+
+    for album in list_of_albums:
+        if album_name[0] == album:
+            accurate_suggestion = accurate_suggestion
+        elif genre_list == album[3]:
+            accurate_suggestion.append(album)
+        else:
+            if set(genre_list.split()) & set(list(album[3].split())):
+                less_suggestion.append(album)
+    return accurate_suggestion, less_suggestion
+
+
 def find_albums_by_artist_name():
     list_of_albums = read_data_from_file()
     artist_names = []
@@ -70,7 +88,9 @@ def find_shortest_or_longest_album():
     for time in albums_by_time:
         m, s = time.split(":")
         albums_in_seconds.append((int(m) * 60 + int(s)))
-    time_indices = albums_in_seconds.index(min(albums_in_seconds)), albums_in_seconds.index(max(albums_in_seconds))
+    time_indices = albums_in_seconds.index(
+        min(albums_in_seconds)), albums_in_seconds.index(
+        max(albums_in_seconds))
 
     for index in time_indices:
         albums_result.append(list_of_albums[index])
@@ -152,7 +172,7 @@ def add_new_album():
     album_name = input("Enter album name: ")
     release_year = input("Enter release date: ")
     genre_name = input("Enter genre name: ")
-    duration = input("Enter duration of album: ")
+    duration = input("Enter duration of album (MM:SS): ")
 
     with open("text_albums_data.txt", "a") as file_object:
         file_object.write("{},{},{},{},{}\n" .format(
@@ -181,10 +201,27 @@ def find_between_dates():
     return albums_by_release_date
 
 
+def find_oldest_or_youngest_album():
+    list_of_albums = read_data_from_file()
+    albums_by_date = []
+    albums_result = []
+
+    for date in list_of_albums:
+        albums_by_date.append(date[2])
+    albums_by_date = [int(date) for date in albums_by_date]
+    date_indices = albums_by_date.index(
+        min(albums_by_date)), albums_by_date.index(
+        max(albums_by_date))
+
+    for index in date_indices:
+        albums_result.append(list_of_albums[index])
+
+    return albums_result
+
+
 def display_results(list_of_albums, list_of_longest_strings):
     len_of_vertical_lines = 6
     extra_len = 4
-
     for album in list_of_albums:
         print(
             "-" * sum(list_of_longest_strings)
@@ -210,6 +247,7 @@ def display_results(list_of_albums, list_of_longest_strings):
 def view_all_albums():
     albums = read_data_from_file()
     longest_strings = longest_strings_in_albums(albums)
+    print(albums)
     display_results(albums, longest_strings)
 
 
@@ -228,7 +266,37 @@ def view_albums_by_name():
         print("\nNo such artist in database!")
     else:
         longest_strings = longest_strings_in_albums(albums_name)
+        print(
+            "{:^{l_s}}". format(
+                "SEARCHED ALBUM",
+                l_s=sum(longest_strings) +
+                26))
+        # 26 is const see display func
         display_results(albums_name, longest_strings)
+    return albums_name
+
+
+def view_suggestions_by_album_name():
+    albums_name = find_suggestions_by_album_name()
+    accurate_suggestions = albums_name[0]
+    less_suggestions = albums_name[1]
+
+    longest_strings_accurate = longest_strings_in_albums(accurate_suggestions)
+    print(
+        "\n{:^{l_s}}".format(
+            "SIMILAR MUSIC",
+            l_s=sum(longest_strings_accurate) +
+            26))
+    # 26 is const see display func
+    display_results(accurate_suggestions, longest_strings_accurate)
+
+    longest_strings_less = longest_strings_in_albums(less_suggestions)
+    print(
+        "\n{:^{l_s}}".format(
+            "RELATIVELY SIMILAR MUSIC",
+            l_s=sum(longest_strings_less) +
+            26))
+    display_results(less_suggestions, longest_strings_less)
 
 
 def view_albums_by_genre():
@@ -252,6 +320,42 @@ def view_between_dates():
     display_results(albums_by_release, longest_strings)
 
 
+def display_statistics_about_albums():
+    longest_shortest_album = find_shortest_or_longest_album()
+    oldest_youngest_album = find_oldest_or_youngest_album()
+    list_of_albums = read_data_from_file()
+    genre_stat = genre_statistics()
+
+    print("The shortest album is: {}. Time duration: {}".format(
+        longest_shortest_album[0][1].title(), longest_shortest_album[0][4]))
+    print("The longest album is: {}. Time duration: {}".format(
+        longest_shortest_album[1][1].title(), longest_shortest_album[1][4]))
+
+    print("\nThe oldest album is: {}. Release date: {}".format(
+        oldest_youngest_album[0][1].title(), oldest_youngest_album[0][2]))
+    print("The youngest album is: {}. Release date: {}".format(
+        oldest_youngest_album[1][1].title(), oldest_youngest_album[1][2]))
+
+    print("\nTotal album quantity: {}" .format(len(list_of_albums)))
+
+    print("\nIndividual genres in albums:")
+    for genre, quantity in genre_stat.items():
+        print("{}: {}" .format(genre.title(), quantity))
+
+
+def genre_statistics():
+    list_of_albums = read_data_from_file()
+    genre_list = []
+    genre_stat = dict()
+    for genre in list_of_albums:
+        genre_list.append(genre[3])
+
+    for i in genre_list:
+        genre_stat[i] = genre_stat.get(i, 0) + 1
+
+    return genre_stat
+
+
 def longest_strings_in_albums(list_of_albums):
     list_of_longest_strings = []
 
@@ -267,7 +371,10 @@ def longest_strings_in_albums(list_of_albums):
 def choose_main_option():
     print("1) View all albums")
     print("2) Find...")
-    print("3) All info...")
+    print("3) Overall statistics")
+    print("4) Add new album")
+    print("5) Save albums to external file")
+
     option = input("Please enter your choice: ")
     return option
 
@@ -282,9 +389,8 @@ def choose_find_option():
     return find_option
 
 
-'''
 def main():
-    find_shortest_or_longest_album()
+
     main_option = choose_main_option()
     if main_option == "1":
         view_all_albums()
@@ -293,16 +399,25 @@ def main():
         if find_option == "1":
             view_albums_by_artist_name()
         elif find_option == "2":
-            view_albums_by_name()
+            view_suggestions_by_album_name()
         elif find_option == "3":
             view_albums_by_genre()
         elif find_option == "4":
             view_shortest_and_longest_album()
         elif find_option == "5":
             view_between_dates()
+    elif main_option == "3":
+        display_statistics_about_albums()
+    elif main_option == "4":
+        add_new_album()
+    elif main_option == "5":
+        save_to_external_file()
 
 
 if __name__ == "__main__":
     main()
+<<<<<<< HEAD
 '''
 edit_file()
+=======
+>>>>>>> 6c762140029cb713bbf7f7c704d07b568d2addd3
