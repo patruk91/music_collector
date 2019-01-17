@@ -3,6 +3,9 @@ import work_with_file as file
 
 
 def find_albums_by_name():
+    """
+    Return list with records on searched albums
+    """
     list_of_albums = file.read_data_from_file()
     albums_by_name = []
     albums_result = []
@@ -19,6 +22,11 @@ def find_albums_by_name():
 
 
 def find_suggestions_by_album_name():
+    """
+    Return list of accurate and less suggestions
+    found by function based on
+    genre and album name.
+    """
     album_name = dis_fun.view_albums_by_name()
     if album_name == None:
         return None
@@ -41,6 +49,10 @@ def find_suggestions_by_album_name():
 
 
 def find_albums_by_artist_name():
+    """
+    Return list of albums found by artist name based on
+    list of all albums.
+    """
     list_of_albums = file.read_data_from_file()
     artist_names = []
     albums_by_artist_name = []
@@ -58,6 +70,10 @@ def find_albums_by_artist_name():
 
 
 def find_albums_by_genre():
+    """
+    Return list of albums found by genre based on
+    list of all albums.
+    """
     list_of_albums = file.read_data_from_file()
     albums_by_genre = []
     albums_result = []
@@ -76,6 +92,10 @@ def find_albums_by_genre():
 
 
 def find_shortest_or_longest_album():
+    """
+    Return shortest and longest album records based on
+    list of all albums.
+    """
     list_of_albums = file.read_data_from_file()
     albums_by_time = []
     albums_in_seconds = []
@@ -97,6 +117,12 @@ def find_shortest_or_longest_album():
 
 
 def find_between_dates():
+    """
+    Return albums found in release year range based on
+    list of albums,
+    input(begin year) and
+    input(end year).
+    """
     list_of_albums = file.read_data_from_file()
     release_dates = []
     albums_by_release_date = []
@@ -124,6 +150,10 @@ def find_between_dates():
 
 
 def find_oldest_or_youngest_album():
+    """
+    Return oldest and youngest album based on
+    list of all albums
+    """
     list_of_albums = file.read_data_from_file()
     albums_by_date = []
     albums_result = []

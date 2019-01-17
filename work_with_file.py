@@ -2,6 +2,10 @@ import find_albums as find_a
 
 
 def read_data_from_file():
+    """
+    Open file fill list of album with data form file and
+    return it
+    """
     list_of_albums = []
     with open("text_albums_data.txt") as file_object:
         for line in file_object:
@@ -10,6 +14,11 @@ def read_data_from_file():
 
 
 def save_to_external_file():
+    """
+    Open file and create new file based on
+    user input and
+    writelines to new file
+    """
     new_file_name = input("Enter desired file name: ")
     with open("text_albums_data.txt", "r") as file_object:
         with open(new_file_name, "w") as new_file_object:
@@ -17,6 +26,13 @@ def save_to_external_file():
 
 
 def edit_file():
+    """
+    Find album by name and if there is more than one album,
+    ask about artist name.
+    Print options which record user wants to edit.
+    Ask user for input and change.
+    Overwrites file.
+    """
     list_of_albums = read_data_from_file()
     album_result = find_a.find_albums_by_name()
     if album_result != []:
@@ -72,12 +88,16 @@ def edit_file():
             album_result[4] = entered_change
 
         list_of_albums[index] = album_result
-        rewrite_file(list_of_albums)
+        overwrite_file(list_of_albums)
     else:
         print("\nNo such album in database!")
 
 
 def fool_proof_for_edit_file(entered_change):
+    """
+    Special function for blank user input which
+    prevents them.
+    """
     while True:
         if entered_change is not "":
             break
@@ -85,7 +105,10 @@ def fool_proof_for_edit_file(entered_change):
     return entered_change
 
 
-def rewrite_file(list_of_albums):
+def overwrite_file(list_of_albums):
+    """
+    Open file and overwrites it with changes done.
+    """
     with open("text_albums_data.txt", "w") as file_object:
         for album in list_of_albums:
             file_object.write(",".join(album))
@@ -93,6 +116,9 @@ def rewrite_file(list_of_albums):
 
 
 def add_new_album():
+    """
+    Add new album record and appends it to file.
+    """
     while True:
         artist_name = input("Enter artist name: ")
         if artist_name is not "":

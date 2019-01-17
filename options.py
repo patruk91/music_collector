@@ -1,4 +1,7 @@
 def choose_main_option():
+    """
+    Print options in main menu
+    """
     print("1) View all albums")
     print("2) Find...")
     print("3) Overall statistics")
@@ -12,6 +15,9 @@ def choose_main_option():
 
 
 def choose_find_option():
+    """
+    Print options in find sub-menu
+    """
     print("1) album by artist name")
     print("2) album by album name")
     print("3) album by genre")

@@ -1,12 +1,15 @@
-Pink Floyd,The Dark Side Of The Moon,1973,progressive rock,43:00
-Britney Spears,Baby One More Time,1999,pop,42:20
-The Beatles,Revolver,1966,rock,34:43
-Deep Purple,Machine Head,1972,hard rock,37:25
-Old Timers,Old Time,966,ancient,123:45
-Pink Floyd,Wish You Were Here,1975,progressive rock,44:28
-Boston,Boston,1976,hard rock,37:41
-Monika Brodka,Granada,2010,pop,37:42
-David Bowie,Low,1977,rock,38:26
+pink floyd,the dark side of the moon,1973,progressive rock,43:00
+britney spears,baby one more time,1999,pop,42:20
+the beatles,revolver,1966,rock,34:43
+deep purple,machine head,1972,hard rock,37:25
+old timers,old time,966,ancient,123:45
+pink floyd,wish you were here,1975,progressive rock,44:28
+boston,boston,1976,hard rock,37:41
+monika brodka,granada,2010,pop,37:42
+david bowie,low,1977,rock,38:26
 rock,rock,966,pop,13:37
-Massive Attack,Blue Lines,1991,hip hop,45:02
-Moniaaaaka Brodka,Granada,2010,pop,37:42
+massive attack,blue lines,1991,hip hop,45:02
+moniaaaaka brodka,granada,2010,pop,37:42
+czaja,krzysztof,2019,jemzupe,25:25
+patryk,defacto,2017,465,65:20
+szymon,satan,-500,pagan metal,-25:-5
