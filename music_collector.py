@@ -128,9 +128,9 @@ def save_to_external_file():
 
 
 def edit_file():
-    with open("text_albums_data.txt", "a") as file_object:
-        list_of_albums = read_data_from_file()
-        album_result = find_albums_by_name()
+    list_of_albums = read_data_from_file()
+    album_result = find_albums_by_name()
+    if album_result != []:
         if len(album_result) > 1:
             artist_name = input("Please give me artist name: ")
             for i in album_result:
@@ -153,13 +153,15 @@ def edit_file():
             album_result[1] = entered_change
         elif entered_option == "3":
             album_result[2] = entered_change
-        elif entered_option == "4":        
+        elif entered_option == "4":
             album_result[3] = entered_change
         elif entered_option == "5":
             album_result[4] = entered_change
 
         list_of_albums[index] = album_result
         rewrite_file(list_of_albums)
+    else:
+        print("\nNo such album in database!")
         
 
 def rewrite_file(list_of_albums):
@@ -171,11 +173,40 @@ def rewrite_file(list_of_albums):
 
 
 def add_new_album():
-    artist_name = input("Enter artist name: ")
-    album_name = input("Enter album name: ")
-    release_year = input("Enter release date: ")
-    genre_name = input("Enter genre name: ")
-    duration = input("Enter duration of album (MM:SS): ")
+    while True:
+        artist_name = input("Enter artist name: ")
+        if artist_name is not "":
+            break
+
+    while True:
+        album_name = input("Enter album name: ")
+        if album_name is not "":
+            break
+
+    while True:
+        release_year = input("Enter release date: ")
+        try:
+            int(release_year)
+            break
+        except ValueError:
+            print("\nProvide correct value!")
+
+    while True:
+        genre_name = input("Enter genre name: ")
+        if release_year is not "":
+            break
+
+    while True:
+        duration = input("Enter duration of album (MM:SS): ")
+        try:
+            values = duration.split(":")
+            if len(values) == 2 and len(values[1]) == 2 and int(values[1]) <= 60:
+
+                [int(i) for i in values]
+
+                break
+        except ValueError or IndexError:
+            print("\nProvide value in (MM:SS)")
 
     with open("text_albums_data.txt", "a") as file_object:
         file_object.write("{},{},{},{},{}\n" .format(
@@ -190,8 +221,13 @@ def find_between_dates():
     for date in list_of_albums:
         release_dates.append(date[2])
     release_dates = [int(date) for date in release_dates]
-    entered_begin_year = int(input("Please enter date from which to search: "))
-    entered_end_year = int(input("Please enter date to which to search: "))
+    while True:
+        try:
+            entered_begin_year = int(input("Please enter date from which to search: "))
+            entered_end_year = int(input("Please enter date to which to search: "))
+            break
+        except ValueError:
+            print("Please provide a correct value!\n")
 
     for year_range in range(entered_begin_year, entered_end_year + 1):
         if year_range in release_dates:
@@ -280,7 +316,6 @@ def view_albums_by_name():
 
 
 def view_suggestions_by_album_name():
-
     albums_name = find_suggestions_by_album_name()
     if albums_name == None:
         print("\nNo such album in database!")
