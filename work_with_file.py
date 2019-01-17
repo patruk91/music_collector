@@ -78,7 +78,8 @@ def edit_file():
             while True:
                 try:
                     values = entered_change.split(":")
-                    if len(values) == 2 and len(values[1]) == 2 and int(values[1]) <= 60:
+                    if len(values) == 2 and len(values[1]) == 2 and \
+                            0 < int(values[1]) <= 60 and int(values[0]) > 0:
                         [int(i) for i in values]
                         break
                 except ValueError or IndexError:
@@ -146,7 +147,8 @@ def add_new_album():
         duration = input("Enter duration of album (MM:SS): ")
         try:
             values = duration.split(":")
-            if len(values) == 2 and len(values[1]) == 2 and int(values[1]) <= 60:
+            if len(values) == 2 and len(values[1]) == 2 and \
+                    0 < int(values[1]) <= 60 and int(values[0]) > 0:
 
                 [int(i) for i in values]
 

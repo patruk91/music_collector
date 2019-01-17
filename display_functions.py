@@ -3,12 +3,16 @@ import find_albums as find_a
 
 
 def longest_strings_in_albums(list_of_albums):
+<<<<<<< HEAD
     """
     Search for longest string for each column
     and returns length of it.
     :param list_of_albums: list of used albums
     :return: list of len(longest strings)
     """
+=======
+
+>>>>>>> a3f510e19af59ec93cfbd454d8bef16a9bac198c
     list_of_longest_strings = []
 
     for i in range(5):
@@ -28,24 +32,21 @@ def display_results(list_of_albums, list_of_longest_strings):
     """
     len_of_vertical_lines = 6
     extra_len = 4
-    for album in list_of_albums:
+    new_list_albums = [[record.title() for record in album] for album in list_of_albums]
+
+    for album in new_list_albums:
         print(
             "-" * sum(list_of_longest_strings)
             + "-" * len_of_vertical_lines
             + "-" * (extra_len * 5))
-
         print(
             "|{:^{l_n}}|{:^{l_a}}|{:^{l_y}}|{:^{l_g}}|{:^{l_t}}|".format(
-                album[0].title(),  # fix with *args?
-                album[1].title(),
-                album[2].title(),
-                album[3].title(),
-                album[4].title(),
+                *album,
                 l_n=list_of_longest_strings[0] + extra_len,
                 l_a=list_of_longest_strings[1] + extra_len,
                 l_y=list_of_longest_strings[2] + extra_len,
                 l_g=list_of_longest_strings[3] + extra_len,
-                l_t=list_of_longest_strings[4] + extra_len, ))
+                l_t=list_of_longest_strings[4] + extra_len))
     print("-" * sum(list_of_longest_strings) + "-" *
           len_of_vertical_lines + "-" * (extra_len * 5))
 
