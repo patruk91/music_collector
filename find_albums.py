@@ -106,8 +106,10 @@ def find_between_dates():
     release_dates = [int(date) for date in release_dates]
     while True:
         try:
-            entered_begin_year = int(input("Please enter date from which to search: "))
-            entered_end_year = int(input("Please enter date to which to search: "))
+            entered_begin_year = int(input(
+                "Please enter date from which to search: "))
+            entered_end_year = int(input(
+                "Please enter date to which to search: "))
             break
         except ValueError:
             print("Please provide a correct value!\n")

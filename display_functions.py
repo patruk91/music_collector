@@ -2,8 +2,8 @@ import work_with_file as file
 import find_albums as find_a
 
 
-
 def longest_strings_in_albums(list_of_albums):
+
     list_of_longest_strings = []
 
     for i in range(5):
@@ -16,28 +16,30 @@ def longest_strings_in_albums(list_of_albums):
 
 
 def display_results(list_of_albums, list_of_longest_strings):
+
     len_of_vertical_lines = 6
     extra_len = 4
-    for album in list_of_albums:
-        print(
-            "-" * sum(list_of_longest_strings)
-            + "-" * len_of_vertical_lines
-            + "-" * (extra_len * 5))
 
+    # new_list_albums = []
+    # for album in list_of_albums:
+    #     temp = []
+    #     for record in album:
+    #         temp.append(record.title())
+    #     new_list_albums.append(temp)
+
+    # test = [record.title() for album in list_of_albums for record in album]
+    new_list_albums = [[record.title() for record in album] for album in list_of_albums]
+
+    keys = ["l_n", "l_a", "l_y", "l_g", "l_t"]
+    values_of_spaces = [number + extra_len for number in list_of_longest_strings]
+    dictionary = dict(zip(keys, values_of_spaces))
+
+    for album in new_list_albums:
+        print("-" * sum(list_of_longest_strings) + "-" * len_of_vertical_lines)
         print(
             "|{:^{l_n}}|{:^{l_a}}|{:^{l_y}}|{:^{l_g}}|{:^{l_t}}|".format(
-                album[0].title(),  # fix with *args?
-                album[1].title(),
-                album[2].title(),
-                album[3].title(),
-                album[4].title(),
-                l_n=list_of_longest_strings[0] + extra_len,
-                l_a=list_of_longest_strings[1] + extra_len,
-                l_y=list_of_longest_strings[2] + extra_len,
-                l_g=list_of_longest_strings[3] + extra_len,
-                l_t=list_of_longest_strings[4] + extra_len, ))
-    print("-" * sum(list_of_longest_strings) + "-" *
-          len_of_vertical_lines + "-" * (extra_len * 5))
+                *album, **dictionary))
+    print("-" * sum(list_of_longest_strings) + "-" * len_of_vertical_lines)
 
 
 def view_all_albums():
