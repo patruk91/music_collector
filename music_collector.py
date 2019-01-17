@@ -148,27 +148,58 @@ def edit_file():
         entered_option = input("Please enter your choice: ")
         entered_change = input("Please enter your change: ")
         if entered_option == "1":
+            fool_proof_for_edit_file(entered_change)
             album_result[0] = entered_change
+
         elif entered_option == "2":
+            fool_proof_for_edit_file(entered_change)
             album_result[1] = entered_change
+
         elif entered_option == "3":
+            while True:
+                try:
+                    int(entered_change)
+                    break
+                except ValueError:
+                    print("\nProvide correct value!")
+                entered_change = input("Please enter your change: ")
             album_result[2] = entered_change
+
         elif entered_option == "4":
+            fool_proof_for_edit_file(entered_change)
             album_result[3] = entered_change
+
         elif entered_option == "5":
+            while True:
+                try:
+                    values = entered_change.split(":")
+                    if len(values) == 2 and len(values[1]) == 2 and int(values[1]) <= 60:
+                        [int(i) for i in values]
+                        break
+                except ValueError or IndexError:
+                    print("\nProvide value in (MM:SS)")
+
+                entered_change = input("Please enter your change in (MM:SS): ")
             album_result[4] = entered_change
 
         list_of_albums[index] = album_result
         rewrite_file(list_of_albums)
     else:
         print("\nNo such album in database!")
-        
+
+
+def fool_proof_for_edit_file(entered_change):
+    while True:
+        if entered_change is not "":
+            break
+        entered_change = input("Please enter your change: ")
+    return entered_change
+
 
 def rewrite_file(list_of_albums):
     with open("text_albums_data.txt", "w") as file_object:
         for album in list_of_albums:
-            for record in album:
-                file_object.writelines(record + ",")
+            file_object.write(",".join(album))
             file_object.write("\n")
 
 
