@@ -3,16 +3,13 @@ import find_albums as find_a
 
 
 def longest_strings_in_albums(list_of_albums):
-<<<<<<< HEAD
     """
     Search for longest string for each column
     and returns length of it.
     :param list_of_albums: list of used albums
     :return: list of len(longest strings)
     """
-=======
 
->>>>>>> a3f510e19af59ec93cfbd454d8bef16a9bac198c
     list_of_longest_strings = []
 
     for i in range(5):
